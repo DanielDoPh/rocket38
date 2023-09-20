@@ -16,26 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `department`
+-- Table structure for table `account`
 --
 
-DROP TABLE IF EXISTS `department`;
+DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `department` (
-  `DepartmentID` int NOT NULL AUTO_INCREMENT,
-  `DepartmentName` varchar(77) DEFAULT NULL,
-  PRIMARY KEY (`DepartmentID`)
+CREATE TABLE `account` (
+  `AcountID` int NOT NULL AUTO_INCREMENT,
+  `Email` varchar(77) DEFAULT NULL,
+  `UserName` varchar(77) DEFAULT NULL,
+  `FullName` varchar(77) DEFAULT NULL,
+  `FK_DepartmentID` int DEFAULT NULL,
+  `FK_PositionID` int DEFAULT NULL,
+  `CreateDate` date DEFAULT NULL,
+  PRIMARY KEY (`AcountID`),
+  KEY `FK_DepartmentID` (`FK_DepartmentID`),
+  KEY `FK_PositionID` (`FK_PositionID`),
+  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`FK_DepartmentID`) REFERENCES `department` (`DepartmentID`),
+  CONSTRAINT `account_ibfk_2` FOREIGN KEY (`FK_PositionID`) REFERENCES `position` (`PositionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `department`
+-- Dumping data for table `account`
 --
 
-LOCK TABLES `department` WRITE;
-/*!40000 ALTER TABLE `department` DISABLE KEYS */;
-/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+LOCK TABLES `account` WRITE;
+/*!40000 ALTER TABLE `account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -47,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-20 21:55:09
+-- Dump completed on 2023-09-20 21:55:08
