@@ -67,6 +67,8 @@ CREATE TABLE `Group` (
     createDate DATETIME,
     FOREIGN KEY (creatorID) REFERENCES Account(AccountID)
 );
+ALTER TABLE `Group` 
+MODIFY COLUMN createDate DATE;
 
 -- tbl 5 GroupAccount
 CREATE TABLE GroupAccount (
@@ -75,6 +77,8 @@ CREATE TABLE GroupAccount (
     joinDate DATETIME,
     FOREIGN KEY (accountID) REFERENCES Account(AccountID)
 );
+ALTER TABLE GroupAccount
+MODIFY COLUMN joinDate DATE;
 
 -- tbl 6 TypeQuestion
 CREATE TABLE TypeQuestion (
@@ -100,6 +104,8 @@ CREATE TABLE Question (
     FOREIGN KEY (typeID) REFERENCES TypeQuestion(typeID),
     FOREIGN KEY (creatorID) REFERENCES Account(AccountID)
 );
+ALTER TABLE Question
+MODIFY COLUMN createDate DATE;
 
 -- tbl 9 Answer
 CREATE TABLE Answer (
@@ -122,6 +128,8 @@ CREATE TABLE Exam (
     FOREIGN KEY (categoryID) REFERENCES CategoryQuestion(categoryID),
     FOREIGN KEY (creatorID) REFERENCES Account(AccountID)
 );
+ALTER TABLE Exam
+MODIFY COLUMN createDate DATE;
 
 -- tbl 11 ExamQuestion
 CREATE TABLE ExamQuestion (
@@ -129,3 +137,61 @@ CREATE TABLE ExamQuestion (
     questionID INT,
 	FOREIGN KEY (questionID) REFERENCES Question(questionID)
 );
+
+-- Insert
+insert into `position` (PositionName)
+	VALUES 
+		('Dev'), 
+		('Test'), 
+        ('Scrum Master'), 
+        ('PM');
+
+select * from `position`;
+
+insert into Account 
+(Email,
+UserName,
+FullName,
+FK_DepartmentID,
+`FK_PositionID`,
+`CreateDate`
+)
+	VALUES 
+	('dopv@amail.com','dopv','Phùng Văn Độ',1,1,'2023-09-22'), 
+	('dopv2@amail.com','dopv2','Phùng Văn Độ2',2,3,'2023-09-22'), 
+	('dopv3@amail.com','dopv3','Phùng Văn Độ3',3,2,'2023-09-22'), 
+	('dopv4@amail.com','dopv4','Phùng Văn Độ4',4,1,'2023-09-22'),
+	('dopv5@amail.com','dopv5','Phùng Văn Độ5',5,4,'2023-09-22')
+    ;
+select * from `account`;
+        
+-- Them bang 4 5 6, moi bang  ban ghi
+INSERT INTO `Group` 
+	(groupName, creatorID, createDate)
+VALUES
+	('Nhóm 6',1, now()),
+    ('Nhóm 7',2, now()+2)
+    ;
+select * from `group`;
+-- 5
+INSERT INTO GroupAccount 
+	(groupID, accountID, joinDate)
+VALUES
+	(1, 1, current_date()),
+    (2, 2, current_date()+2),
+    (3, 3, current_date()-3),
+    (4, 4, current_date()+4),
+    (5, 5, current_date()-5)
+    ;
+select * from GroupAccount;
+-- 6
+INSERT INTO TypeQuestion 
+	(typeName)
+VALUES
+	(1),
+    (2),
+    (1),
+    (2),
+    (2)
+    ;
+select * from TypeQuestion;
