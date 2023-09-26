@@ -49,12 +49,12 @@ INSERT into department VALUE (2,'Sale');
 INSERT into department VALUE (3,'Inventory');
 INSERT into department VALUE (4,'CustomerCare');
 INSERT into department VALUE (5,'TechSupport');
-
+insert into Department (DepartmentName) values ('Finance'),('Transportation');
 SELECT DepartmentName AS dn from department
 	WHERE department.DepartmentID BETWEEN 2 and 4;
 
   /*
-  2023 09 22, Lesson 2 Database (mySQL)
+  2023 09 22 Fri, Lesson 2 Database (mySQL)
   */  
 ALTER TABLE Position 
 MODIFY COLUMN PositionName ENUM ('Dev','Test','Scrum Master', 'PM');
@@ -165,7 +165,7 @@ FK_DepartmentID,
     ;
 select * from `account`;
         
--- Them bang 4 5 6, moi bang  ban ghi
+-- Them bang 4 5 6, moi bang 5 ban ghi
 INSERT INTO `Group` 
 	(groupName, creatorID, createDate)
 VALUES
@@ -195,3 +195,99 @@ VALUES
     (2)
     ;
 select * from TypeQuestion;
+
+-- 7
+use dbrocket38;
+insert into CategoryQuestion
+(categoryName)
+VALUES 
+	('Java'), 
+    ('.NET'),
+    ('SQL'),
+    ('Postman'),
+    ('Ruby'),
+	('Python'),
+    ('MySQL');
+
+-- 8
+insert into Question
+(content, categoryID, typeID, creatorID, createDate)
+VALUES 
+	('What is this?',1,2,1,curdate()-7), 
+    ('What is that?',2,3,2,curdate()-6), 
+    ('What are these?',3,4,3,curdate()-5), 
+    ('What are those?',4,5,4,curdate()-1), 
+    ('Which ball is not expensive?',5,1,1,curdate()-7),
+	('What does the dog eat?',5,4,5,curdate()-2),
+    ('What kind of dog does we have?',6,3,4,curdate()-3);
+/*
+2023 09 25 Mon lesson 3 mySQL
+*/
+-- Q2 Lay ra tat ca cac phong ban
+use dbrocket38;
+
+select * from Department;
+
+-- Q3 get ID of 'Sale' department
+select departmentID from Department WHERE DepartmentName = 'Sale';
+
+-- Q6 Name of group join in before ... 25/09/2023, then after
+SELECT * from `group`;
+insert into `group` (groupName, creatorID, createDate)
+values 
+	('Golden', 4, curdate() + 3),
+	('Alaska', 4, curdate() + 4),
+    ('Husky', 4, curdate() -7),
+    ('Pug', 4, curdate() + 2);
+    
+select groupName from `group`
+	WHERE createDate > '2023-09-25';
+
+-- SELECT column_name(s) FROM tbl_name WHERE column_name LIKE 'D%o';
+-- SELECT DISTINCT column_name FROM <...>;
+/* 
+SELECT 
+column_name(s) 
+FROM  tbl1 JOIN tbl2 ON tbl1.field = tbl2.field;
+can JOIN 1 or multi tables.
+*/
+
+select * from account where accountID = 4;
+update account set fullname = 'Nguyễn Văn Bốn' where accountID=4;
+update account set createdate = '2003-10-04' where username = 'dopv3';
+
+
+/*GROUP BY : Thống kê dữ liệu theo nhóm, có thể GROUP BY nhiều cột.,
+kết hợp function tính toán count, sum, max, min, avg
+(vd tính độ tuổi trung bình theo phòng ban: 
+select Dpmt_Name, avg(age) join department vs account as ac  on (id = id ...) 
+group by ac.departmentName
+HAVING (thêm điều kiện) ví dụ trung bình trên 23 tuổi
+*/
+
+ALTER table account add column birthday Date;
+ALTER table account add column Age int;
+update account set FullName = 'Nguyễn Bá Lộc',username='locnb1' where accountid =5;
+update account set age = 2023-date_format(birthday,'%Y');
+
+-- Tính tuổi các nhân viên
+select username, fullname, age from account;
+
+-- Lấy 2 nhân trẻ tuổi nhất 
+select username, fullname, age from `account`
+order BY age asc limit 2;
+-- Tính độ tuổi trung binh nhân viên theo phòng ban, theo chuc vu
+select /*dp.DepartmentName,*/ ps.PositionName, avg(age) 
+from `account` as ac join department as dp on ac.FK_DepartmentID = dp.DepartmentID 
+join position as ps on ac.FK_PositionID = ps.PositionID
+GROUP BY /*dp.departmentName,*/ ps.positionName;
+
+-- Count staff group by department
+select dp.departmentName, count(ac.FK_DepartmentID) as QuantityOfStaff
+from account as ac join department as dp on ac.FK_DepartmentID = dp.DepartmentID
+group by dp.departmentName;
+
+-- Get the longest name 
+select *, char_length(fullname) as cl from account
+order by char_length(fullname) desc
+limit 1;
