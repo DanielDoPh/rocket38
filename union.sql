@@ -18,17 +18,21 @@ where g.groupID =2;
 
 
 
-select ga.groupID, ac.accountID, ac.fullname, g.groupName, count(ga.groupID) as SL 
-from `account` as ac 
-	join `groupaccount` as ga on ac.accountID = ga.accountID
-	join `group` as g on ga.groupID = g.groupID
+select 
+	ga.groupID, 
+	g.groupName, 
+	count(ga.groupID) as SL 
+from `groupaccount` as ga 
+    join `group` as g on ga.groupID = g.groupID
 group by ga.groupID
-having count(ga.groupID) > 5
+having count(ga.groupID) > 3
 union all
 -- check here
-select ga.groupID, ac.accountID, ac.fullname, g.groupName, count(ga.groupID) as SL 
+select 
+	ga.groupID, 
+	g.groupName, 
+	count(ga.groupID) as SL 
 from `groupaccount` as ga 
-	join `account` as ac on ac.accountID = ga.accountID 
     join `group` as g on ga.groupID = g.groupID
 group by ga.groupID
 having count(ga.groupID) < 7;
@@ -40,6 +44,8 @@ select * from groupaccount;
 
 alter table groupaccount add FOREIGN KEY (groupID) REFERENCES `group` (groupID);
 -- drop PRIMARY KEY ;
+ALTER TABLE groupaccount
+ADD PRIMARY KEY (groupID, accountID);
 UPDATE `groupaccount` 
 set groupID= 5 where accountID=1 and joindate = '2023-09-22';
 insert into groupaccount 
