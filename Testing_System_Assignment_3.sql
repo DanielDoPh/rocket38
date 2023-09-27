@@ -128,7 +128,20 @@ VALUEs
     select * from salarydetailtype;
     
 -- Tạo 15 user Trong đó
--- 5 user thuộc 2 phòng ban khác nhau? 
--- 3 user có 2 role khác nhau trong 1 phòng? 
+-- 5 user thuộc 2 phòng ban khác nhau? Đã từng đổi phòng ban... 
+-- 2 thời điểm (user_department, user_role, startdate, enddate)
+-- 3 user có 2 role khác nhau trong 1 phòng? Thay đổi theo thời điểm
 -- INSERT INTO user?
+use dbr38asm3;
+SELECT dpmtID from users;
+alter TABLE users
+DROP FOREIGN KEY dpmtID;
 
+-- Get luong thang 5 cua 1 user bat ki
+-- get salary s join user-role us join user-depart ud join users join department dp
+-- where month = 5 & year = 2023 
+-- and us.startdate <= 2023-05-31 ?
+-- and us.startdate <= 2023-05-31 ?
+
+-- Tính tổng sai luong...ALTER
+-- select 
