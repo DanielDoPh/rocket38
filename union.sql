@@ -16,8 +16,6 @@ from `account` as ac
 where g.groupID =2;
 
 
-
-
 select 
 	ga.groupID, 
 	g.groupName, 
