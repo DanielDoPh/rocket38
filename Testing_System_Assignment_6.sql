@@ -259,18 +259,19 @@ DROP FUNCTION IF EXISTS WhoThat;
 
 DELIMITER $$
 CREATE FUNCTION WhoThat (smtIN int) returns int
+DETERMINISTIC
 BEGIN 
-	DECLARE empID int;
+	DECLARE empID int DEFAULT 0;
     SELECT rs.thatOne into empID from 
 	(SELECT pm.ID as ModuleID, pm.prjID as ProjectID, pm.empID as defaultOne,
     wd.empID as thatOne , wd.wdDate as Dates
     from workdone as wd
 		join Project_module as pm on pm.ID = wd.mdlID
 	where wd.empID <> pm.empID limit 1) as rs;
+    
     RETURN empID;
 END $$
 DELIMITER ;
-
 select WhoThat (1);
 
 set @empID =0;
